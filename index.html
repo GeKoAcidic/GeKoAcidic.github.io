@@ -1,13 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive HTML Carousel</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+
+    /* Carousel Wrapper */
+    .carousel-container {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Slide Track */
+    .carousel-track {
+      display: flex;
+      transition: transform 0.4s ease-in-out;
+      width: 100%;
+    }
+
+    /* Individual Slide */
+    .carousel-slide {
+      min-width: 100%;
+      height: 400px;
+      position: relative;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Slide Text Caption */
+    .slide-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+
+    /* Navigation Buttons */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.7);
+      border: none;
+      font-size: 24px;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
+
+    .btn-prev { left: 15px; }
+    .btn-next { right: 15px; }
+  </style>
 </head>
 <body>
 
-    <h1>Hello World!</h1>
+  <div class="carousel-container">
+    <!-- Navigation Buttons -->
+    <button class="carousel-btn btn-prev" id="prevBtn">&#10094;</button>
+    <button class="carousel-btn btn-next" id="nextBtn">&#10095;</button>
+
+    <!-- Slides Track -->
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <img src="https://picsum.photos" alt="Mountain Lake">
+        <div class="slide-caption">Beautiful Mountain Lake</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://picsum.photos" alt="Mountain Range">
+        <div class="slide-caption">Serene Mountain Range</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://picsum.photos" alt="Mist Forest">
+        <div class="slide-caption">Misty Pine Forest</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const track = document.getElementById('carouselTrack');
+    const prevButton = document.getElementById('prevBtn');
+    const nextButton = document.getElementById('nextBtn');
+    const slides = document.querySelectorAll('.carousel-slide');
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+
+    function updateCarouselPosition() {
+      // Shift the entire track left depending on the current slide index
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    nextButton.addEventListener('click', () => {
+      if (currentIndex < totalSlides - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0; // Loop back to the start
+      }
+      updateCarouselPosition();
+    });
+
+    prevButton.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = totalSlides - 1; // Loop to the end
+      }
+      updateCarouselPosition();
+    });
+  </script>
 
 </body>
 </html>
