@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Detail | Rhyan M Portfolio</title>
+  <style>
+    /* Reset & Clean Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    /* Back Navigation Button */
+    .back-nav {
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 30px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      color: #a0a0a0;
+      border: none;
+      text-decoration: none;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .back-btn:hover {
+      color: #ffffff;
+    }
+
+    .back-btn span {
+      margin-right: 8px;
+      font-size: 1.1rem;
+    }
+
+    /* Project Main Wrapper */
+    .project-container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* Hero / Header Section */
+    .project-header {
+      border-left: 3px solid #ffffff;
+      padding-left: 30px;
+      margin-top: 10px;
+    }
+
+    .project-header .project-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #a0a0a0;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .project-header h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Media Showcase Area (Hero Image or Main Video) */
+    .main-showcase {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #111;
+    }
+
+    .main-showcase img, 
+    .main-showcase video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Two-Column Details Layout */
+    .project-details {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .project-details {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Core Overview / Description Text */
+    .details-main h2 {
+      font-size: 1.25rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+
+    .details-main p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #cccccc;
+      margin-bottom: 20px;
+    }
+
+    /* Sidebar Metadata Block */
+    .details-sidebar {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 25px;
+      border-radius: 4px;
+      align-self: start;
+    }
+
+    .meta-group {
+      margin-bottom: 20px;
+    }
+
+    .meta-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .meta-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #a0a0a0;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    /* Dynamic Gallery Grid (Additional Pictures/Footage) */
+    .project-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 576px) {
+      .project-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #111;
+      aspect-ratio: 16 / 9;
+    }
+
+    .gallery-item img,
+    .gallery-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Video Container for embeds (YouTube / Vimeo / Twitch) */
+    .video-embed-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #111;
+    }
+
+    .video-embed-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Layer -->
+  <nav class="back-nav">
+    <a href="/index.html" class="back-btn"><span>❮</span> Back to Gallery</a>
+  </nav>
+
+  <!-- Project Container -->
+  <main class="project-container">
+    
+    <!-- Title Information -->
+    <header class="project-header">
+      <span class="project-tag">[ Project Type / e.g., Group Work ]</span>
+      <h1>[ Project Title / e.g., Ransack! ]</h1>
+    </header>
+
+    <!-- Main Placeholder Display: Image or Gameplay Footage Video -->
+    <section class="main-showcase">
+      <!-- Option A: Simple Key Art Image -->
+      <img src="https://unsplash.com" alt="Project Spotlight Header">
+      
+      <!-- Option B: Local Video Loop (Uncomment to use instead of image) -->
+      <!-- 
+      <video autoplay loop muted playsinline>
+        <source src="Videos/Gameplay_Loop.mp4" type="video/mp4">
+      </video> 
+      -->
+    </section>
+
+    <!-- Content breakdown -->
+    <section class="project-details">
+      
+      <!-- Left Hand Side Descriptions -->
+      <div class="details-main">
+        <h2>Project Overview</h2>
+        <p>This is where you can write a comprehensive summary about your project. Discuss what the core concept was, how your design execution unfolded, and what specific systems or tools you built to see it to completion.</p>
+        <p>You can duplicate these paragraph tags to dive deep into technical breakdowns, post-mortems, your personal artistic contributions, or milestones like exhibiting at SXSW Sydney.</p>
+        
+        <!-- Video Embed Area (Perfect for high quality trailer footage links) -->
+        <h2 style="margin-top: 40px; margin-bottom: 15px;">Project Footage / Trailer</h2>
+        <div class="video-embed-container">
+          <!-- Swap the src URL with your actual YouTube or Vimeo embed share link -->
+          <iframe src="https://youtube.com" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- Right Hand Side Metadata Breakdown -->
+      <div class="details-sidebar">
+        <div class="meta-group">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Gameplay Programmer / Technical Designer</span>
+        </div>
+        <div class="meta-group">
+          <span class="meta-label">Timeline</span>
+          <span class="meta-value">1 Semester (2024)</span>
+        </div>
+        <div class="meta-group">
+          <span class="meta-label">Engine / Tools</span>
+          <span class="meta-value">Unity / C# / Git</span>
+        </div>
+        <div class="meta-group">
+          <span class="meta-label">Client / Context</span>
+          <span class="meta-value">Macquarie University</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Secondary Media Gallery Grid for Extra Pictures/Screenshots -->
+    <section>
+      <h2 style="font-size: 1.25rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">Development Artifacts & Screenshots</h2>
+      <div class="project-gallery">
+        
+        <!-- Gallery Item 1 -->
+        <div class="gallery-item">
+          <img src="https://unsplash.com" alt="Gallery Frame 1">
+        </div>
+
+        <!-- Gallery Item 2 -->
+        <div class="gallery-item">
+          <img src="https://unsplash.com" alt="Gallery Frame 2">
+        </div>
+
+        <!-- Gallery Item 3 (Can also accept native video loops) -->
+        <div class="gallery-item">
+          <img src="https://unsplash.com" alt="Gallery Frame 3">
+        </div>
+
+        <!-- Gallery Item 4 -->
+        <div class="gallery-item">
+          <img src="https://unsplash.com" alt="Gallery Frame 4">
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
