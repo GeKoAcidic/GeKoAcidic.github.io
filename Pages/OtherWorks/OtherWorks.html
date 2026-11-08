@@ -167,6 +167,28 @@
       background-color: #ffffff;
       transform: scale(1.2);
     }
+
+    /* Home Button Styles */
+    .home-btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 24px;
+      background-color: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .home-btn:hover {
+      background-color: #ffffff;
+      color: #1a1a1a;
+      border-color: #ffffff;
+    }
   </style>
 </head>
 <body>
@@ -239,6 +261,10 @@
 
   <!-- Status Dots -->
   <div class="dots-indicator" id="dotsContainer"></div>
+
+  <!-- Home Navigation Button -->
+  <a href="/index.html" class="home-btn">HOME</a>
+
 
   <script>
     const track = document.getElementById('carouselTrack');
