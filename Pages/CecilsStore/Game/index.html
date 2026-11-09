@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Introduction</title>
+<link href="css/styles.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        let eventNo = 0;
+
+        const eventText = [
+            "Every step brings me closer to a new beginning.",
+            "Alderbrook awaits, ripe with opportunity.",
+            "The road may be long and winding, but each mile carries me closer to my destiny.",
+            "Through thick and thin, I'll persevere.",
+            "Nothing will stand in the way of my dream to bring healing to those in need.",
+            "Alderbrook, with its winding streets and bustling markets, beckons.", 
+            "Let's see what adventures await in this charming town.",
+            "At long last, Alderbrook! Time to turn this humble shop into a sanctuary of healing and hope.", 
+            "Every jar on these shelves holds a story, every potion a promise. Let's see what wonders we can brew together in this new chapter of my life.", 
+            "No challenge is too great, no ailment too stubborn. Here's to becoming a beacon of light in this quaint town."
+
+        ]
+
+        $('#content').html(eventText[eventNo]);
+
+        $('#cecil').click(events);
+        $('#output').click(events);
+
+        function events() {
+            eventNo++
+            if(eventNo < eventText.length){
+                $('#content').html(eventText[eventNo]);
+            } else {
+                window.location = 'day0.html'
+            }
+
+            if(eventNo == 7){
+                $('#stage').css('background-image', ' url(../Images/Backgrounds/IntroBackground2.jpg)');
+            }
+        }
+    })
+</script>
+</head>
+<body>
+    <div id="stage">
+        <img src="Images/Sprites/People/Cecil.png" id="cecil" alt="A picture of Cecil">
+     
+        <div id="output">
+            <p id="speaker">Cecil:</p>
+            <p id="content">blah blah blah</p>
+        </div>
+
+    </div>
+</body>
+</html>

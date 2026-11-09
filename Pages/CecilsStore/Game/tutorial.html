@@ -1,0 +1,330 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Instore</title>
+    <link href="css/store.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let eventNo = -1;
+
+            let clickable = false;
+            let progressable = true;
+            let bookClicked = false;
+
+            let eventText = [
+                "Welcome to your new potion shop!",
+                "This tutorial will guide you through the basics of potion-making.",
+                "For the sake of this tutorial, the ingredients for your first potion will be given to you free of charge.",
+                "But for every potion after you will have to buy the ingredients from the herb shop at the start of the day.",
+                "First, let's start with the most important resource: the recipe book.",
+                "This is the recipe book. It contains all the potion recipes I'll need.",
+                "I should open it to see the list of potions and the ingredients required.",
+                "<i>I should really open the book</i>",
+                "I should make sure to check this book often to guide my potion-making process.",
+                "I should try to make a <b>Potion of Health.</b>",
+                "The first thing the recipe needs is Crushed Whisperleaf.",
+                "So, let's learn how to use the mortar and pestle. This tool allows me to crush ingredients into a fine powder.",
+                "I should try crushing this Eldertree Whisperleaf.",
+                "Give it a go",
+                "<i>I should really crush this Eldertree Whisperleaf.</i>",
+                "Great! Now I have the crushed variety of that ingredient. Crushed ingredients are often essential for many potions.",
+                "Next up, the drying rack. This tool is used to dry your ingredients, which can change their properties and make them suitable for different potions.",
+                "I should try drying this Moonshadow Lotus, as the recipe suggests.",
+                "Give it a go",
+                "<i>I should really dry this Moonshadow Lotus.</i>",
+                "Great! Now I have the dried variety of that ingredient. Dried ingredients are also often essential for many potions.",
+                "Now, let's move on to the chopping board. You can use this tool to chop ingredients into smaller pieces.",
+                "I should try chopping this Starbloom Essence, as the recipe suggests.",
+                "Give it a go",
+                "<i>I should really chop this Starbloom Essence.</i>",
+                "Great! Now I have the chopped variety of that ingredient. Chopped ingredients are also often essential for many potions.",
+                "Finally, the mixing bowl. Here you can combine three ingredients to create a potion. Follow the recipes from the book to get the right combination.",
+                "Let's use the ingredients we just modified to make a Potion of Health.",
+                "Give it a go",
+                "<i>I should really make the potion.</i>",
+                "You’ve done it! You've created your first potion.",
+                "Remember to experiment with different combinations and always refer to your recipe book.",
+                "Throughout the day you will be visited by many people and you can choose to give them what they need.",
+                "One thing to keep in mind is that whilst you can make potions on the fly, you can only buy ingredients at the start of the day.",
+                "In addition, whilst the decision to serve anyone and everyone, is ultimately up to you, it may be in your best interest to turn away anyone that looks suspicious.",
+                "Now you're ready to start your journey as an herbalist in Alderbrook.",
+                "Best of luck, and may your potions always be potent!",
+                "That should do it.",
+                "Tomorrow, Alderbrook will have a new herbalist in town, and Cecil Woodgreen will be ready to serve.",
+                "But first, I’m out of ingredients, so I will have to go to the shop first thing tomorrow and pick up more."
+            ]
+
+            let stage = localStorage.getItem('stage');
+
+            $('#content').html(eventText[eventNo]);
+
+            $('#bookHolder').hide();
+
+            $('.tool').hide();
+
+            $('#cecil').click(events);
+            $('#output').click(events);
+
+            changeSpeaker("Tutorial");
+
+            if (stage === '0') {
+                $('#book').hide();
+                $('#cecil').hide();
+                eventNo = -1;
+                makeUnclickable();
+            } else if (stage === '1') {
+                eventNo = 14;
+                changeSpeaker("Cecil");
+                if (localStorage.getItem("Crushed Whisperleaf") != 1) {
+                    $('#mortar').show();
+                    makeClickable();
+                    progressable = false;
+                }
+
+            } else if (stage === '2') {
+                eventNo = 19;
+                changeSpeaker("Cecil");
+                if (localStorage.getItem("Dried Lotus") != 1) {
+                    $('#rack').show();
+                    makeClickable();
+                    progressable = false;
+                }
+
+            } else if (stage === '3') {
+                eventNo = 24;
+                changeSpeaker("Cecil");
+                if (localStorage.getItem("Chopped Essence") != 1) {
+                    $('#board').show();
+                    makeClickable();
+                    progressable = false;
+                }
+
+            } else if (stage === '4') {
+                eventNo = 29;
+                $('#cecil').hide();
+                if (localStorage.getItem("Potion of Health") != 1) {
+                    $('#bowl').show();
+                    $('#cecil').show();
+                    makeClickable();
+                    progressable = false;
+                    changeSpeaker("Cecil");
+                }
+
+            } else if (stage === '5') {
+                eventNo = 36;
+                changeSpeaker("Cecil")
+                $('#cecil').show();
+                localStorage.setItem("stage", 5);
+                $('.tool').show();
+                makeClickable();
+            }
+
+            events();
+
+            function events() {
+                if (progressable) {
+                    eventNo++
+                }
+                if (eventNo < eventText.length) {
+                    $('#content').html(eventText[eventNo]);
+                } else {
+                    localStorage.setItem('day', "day1")
+                    localStorage.setItem("stage", 0);
+                    window.location = 'day1.html'
+                }
+
+                if (eventNo == 4) {
+                    changeSpeaker("Cecil");
+                    $('#cecil').show();
+                }
+
+                if (eventNo == 5) {
+                    $('#book').show();
+                }
+
+                if (eventNo == 7) {
+                    if (bookClicked == false) {
+                        progressable = false;
+                    } else {
+                        events();
+                    }
+                }
+
+                if (eventNo == 12) {
+                    localStorage.setItem("Eldertree Whisperleaf", 1)
+                    $('#mortar').fadeIn();
+                    makeUnclickable();
+                }
+
+                if (eventNo == 13) {
+                    changeSpeaker("Tutorial")
+                    progressable = false;
+                    makeClickable();
+                    localStorage.setItem("stage", 1);
+                }
+
+                if (eventNo == 17) {
+                    localStorage.setItem("Moonshadow Lotus", 1)
+                    $('#rack').fadeIn();
+                    makeUnclickable();
+                }
+
+                if (eventNo == 18) {
+                    changeSpeaker("Tutorial")
+                    progressable = false;
+                    makeClickable();
+                    localStorage.setItem("stage", 2);
+                }
+
+                if (eventNo == 22) {
+                    localStorage.setItem("Starbloom Essence", 1)
+                    $('#board').fadeIn();
+                    makeUnclickable();
+                }
+
+                if (eventNo == 23) {
+                    changeSpeaker("Tutorial")
+                    progressable = false;
+                    makeClickable();
+                    localStorage.setItem("stage", 3);
+                }
+
+                if (eventNo == 27) {
+                    $('#bowl').fadeIn();
+                    makeUnclickable();
+                }
+
+                if (eventNo == 28) {
+                    changeSpeaker("Tutorial")
+                    progressable = false;
+                    makeClickable();
+                    localStorage.setItem("stage", 4);
+                }
+
+                if (eventNo == 37) {
+                    changeSpeaker("Cecil")
+                    $('#cecil').show();
+                    localStorage.setItem("stage", 5);
+                    $('.tool').show();
+                    makeClickable();
+                }
+
+            }
+
+            $(document).on('click', '#book', function () {
+                $('#bookHolder').show();
+                $('#leftArrow').hide();
+                $('.bookPage').hide();
+                $('#page1').show();
+                pageNum = 1;
+
+                if (bookClicked == false) {
+                    bookClicked = true;
+                }
+
+                if (eventNo == 7) {
+                    progressable = true;
+                    events();
+                }
+            })
+
+            $(document).on('click', '#closeBook', function () {
+                $('#bookHolder').hide();
+                $('.bookPage').hide();
+                pageNum = 1;
+            })
+
+            $(document).on('click', '#rightArrow', function () {
+                pageNum++;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 2) {
+                    $('#leftArrow').show();
+                }
+                if (pageNum === 6) {
+                    $('#rightArrow').hide();
+                }
+            })
+
+            $(document).on('click', '#leftArrow', function () {
+                pageNum--;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 5) {
+                    $('#rightArrow').show();
+                }
+                if (pageNum === 1) {
+                    $('#leftArrow').hide();
+                }
+            })
+
+            $(document).on('click', '.tool', function () {
+                if (clickable) {
+                    let pageName = $(this).data('pagename');
+                    window.location = pageName;
+                }
+            })
+
+            function changeSpeaker(name) {
+                $('#speaker').html(name + ":");
+                if (name === "Tutorial") {
+                    $('#speaker').css('color', '#f0f0f0')
+                }
+                if (name === "Cecil") {
+                    $('#speaker').css('color', '#4287f5')
+                }
+            }
+
+            function makeClickable() {
+                clickable = true;
+                $('.tool').removeClass('noHover');
+            }
+
+            function makeUnclickable() {
+                clickable = false;
+                $('.tool').addClass('noHover');
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <div id="stage">
+        <img src="Images/Sprites/People/Cecil.png" id="cecil" alt="A picture of Cecil">
+
+        <img src="Images/Sprites/Items/mortar.png" id="mortar" class="tool" data-pagename="mortar.html"
+            alt="a picture of a mortar and pestle">
+        <img src="Images/Sprites/Items/dryingRack.png" id="rack" class="tool" data-pagename="rack.html"
+            alt="a picture of a drying rack">
+        <img src="Images/Sprites/Items/choppingBoard.png" id="board" class="tool" data-pagename="board.html"
+            alt="a picture of a chopping board">
+        <img src="Images/Sprites/Items/mixingBowl.png" id="bowl" class="tool" data-pagename="bowl.html"
+            alt="a picture of a mixingBowl">
+
+        <div id="output">
+            <p id="speaker">Cecil:</p>
+            <p id="content">Test</p>
+        </div>
+
+        <img src="Images/Sprites/Book/Book.png" id="book">
+
+        <div id="bookHolder">
+            <img src="Images/Sprites/Book/page1.png" id="page1" class="bookPage" alt="Recipe book page 1">
+            <img src="Images/Sprites/Book/page2.png" id="page2" class="bookPage" alt="Recipe book page 2">
+            <img src="Images/Sprites/Book/page3.png" id="page3" class="bookPage" alt="Recipe book page 3">
+            <img src="Images/Sprites/Book/page4.png" id="page4" class="bookPage" alt="Recipe book page 4">
+            <img src="Images/Sprites/Book/page5.png" id="page5" class="bookPage" alt="Recipe book page 5">
+            <img src="Images/Sprites/Book/page6.png" id="page6" class="bookPage" alt="Recipe book page 6">
+
+            <img src="Images/Sprites/Icons/X.png" id="closeBook" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="leftArrow" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="rightArrow" class="bookIcon">
+        </div>
+    </div>
+</body>
+</html>

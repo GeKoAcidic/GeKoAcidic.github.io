@@ -1,0 +1,385 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Mixing Bowl</title>
+    <link href="css/mixingBowl.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var inventory = Object.entries(localStorage);
+            var gold = localStorage.getItem("Gold");
+            var numSelected = 0;
+
+            var selectedItems = [null, null, null];
+
+
+            reloadTables();
+
+            function reloadTables() {
+                let counter = 0;
+                numSelected = 0;
+                selectedItems = [null, null, null];
+
+
+                $('.icon').hide();
+                $('.potionReward').hide();
+                $('#rewardGivenOuter').hide();
+                $('#bookHolder').hide();
+
+                $('#fresh').empty();
+                $('#processed').empty();
+                $('#potions').empty();
+                inventory = Object.entries(localStorage);
+                localStorage.clear();
+                inventory.sort();
+                for (i = 0; i < inventory.length; i++) {
+                    if (inventory[i][1] != 0) {
+                        if (inventory[i][0] !== "debug" && inventory[i][0] !== "Gold" && inventory[i][0] !== "day" && inventory[i][0] !== "stage" && inventory[i][0] !== "Reputation") {
+
+                            counter++;
+
+                            let firstWord = inventory[i][0];
+                            firstWord = firstWord.replace(/ .*/, '');
+                            if (firstWord === "Dried" || firstWord === "Chopped" || firstWord === "Crushed") {
+                                $('#processed').append(
+                                    '<li id="' + inventory[i][0] + '" class="ingredient" data-invindexid="' + i + '"><b>' + inventory[i][0] + ':</b> ' + inventory[i][1] + '</li>'
+                                );
+                            } else if (firstWord === "Potion") {
+                                $('#potions').append(
+                                    '<li id="' + inventory[i][0] + '" class="potion" data-invindexid="' + i + '"><b>' + inventory[i][0] + ':</b> ' + inventory[i][1] + '</li>'
+                                );
+                            } else {
+                                $('#fresh').append(
+                                    '<li id="' + inventory[i][0] + '" class="ingredient" data-invindexid="' + i + '"><b>' + inventory[i][0] + ':</b> ' + inventory[i][1] + '</li>'
+                                );
+                            }
+
+                        }
+                        localStorage.setItem(inventory[i][0], inventory[i][1]);
+                    }
+                }
+
+                //size adjustment to keep the inventory list from overflowing
+                if (counter > 22) {
+                    let sizeAdjustment = counter - 22;
+                    sizeAdjustment /= 11;
+                    sizeAdjustment *= 10;
+                    sizeAdjustment = 20 - sizeAdjustment;
+
+                    //little catch case, because these numbers still overflow (rounding error I believe)
+                    if (counter >= 27 && counter <= 29) {
+                        sizeAdjustment -= 1;
+                    }
+                    $('#items').css("font-size", sizeAdjustment.toString() + "px");
+                }
+            };
+
+
+            $(document).on('click', '.ingredient', function () {
+                //remove item
+                if ($(this).css('border-color') == 'rgb(255, 0, 0)') {
+                    $(this).css({
+                        'border-color': 'gold',
+                        'color': 'gold'
+                    });
+                    numSelected--;
+                    let relevantIcon = inventory[$(this).data("invindexid")][0]
+                    relevantIcon = "#" + relevantIcon.replace(/\s+/g, '');
+                    $(relevantIcon).hide();
+
+                    for (i = 0; i < selectedItems.length; i++) {
+                        if (selectedItems[i] != null) {
+                            if (selectedItems[i][2] == $(this).data("invindexid")) {
+                                selectedItems[i] = null;
+                                i = selectedItems.length;
+                            }
+                        }
+                    }
+                }
+                //add item
+                else if (numSelected < 3 && $(this).css('border-color') == 'rgb(255, 215, 0)') {
+                    $(this).css({
+                        'border-color': 'red',
+                        'color': 'red'
+                    });
+                    numSelected++
+                    let relevantIcon = inventory[$(this).data("invindexid")][0]
+                    relevantIcon = "#" + relevantIcon.replace(/\s+/g, '');
+                    $(relevantIcon).show();
+
+                    for (i = 0; i < selectedItems.length; i++) {
+                        if (selectedItems[i] == null) {
+                            let currInvItem = inventory[$(this).data("invindexid")]
+                            selectedItems[i] = [currInvItem[0], currInvItem[1], $(this).data("invindexid")]
+                            i = selectedItems.length;
+                        }
+                    }
+                }
+            })
+
+            //when hovering over a list item it glows gold to indicate interactability
+            $(document).on('mouseenter', '.ingredient', function () {
+                if ($(this).css('border-color') == 'rgb(255, 255, 255)') {
+
+                    $(this).css({
+                        'border-color': 'gold',
+                        'color': 'gold'
+                    });
+                    let relevantIcon = inventory[$(this).data("invindexid")][0]
+                    relevantIcon = "#" + relevantIcon.replace(/\s+/g, '');
+                    $(relevantIcon).show();
+
+                } else if ($(this).css('border-color') == 'rgb(0, 255, 0)') {
+                    $(this).css({
+                        'border-color': 'red',
+                        'color': 'red'
+                    });
+                }
+            });
+            $(document).on('mouseleave', '.ingredient', function () {
+                if ($(this).css('border-color') == 'rgb(255, 0, 0)') {
+                    $(this).css({
+                        'border-color': 'lime',
+                        'color': 'lime'
+                    });
+                } else if ($(this).css('border-color') == 'rgb(255, 215, 0)') {
+                    $(this).css({
+                        'border-color': 'white',
+                        'color': 'white'
+                    });
+                    let relevantIcon = inventory[$(this).data("invindexid")][0]
+                    relevantIcon = "#" + relevantIcon.replace(/\s+/g, '');
+                    $(relevantIcon).hide();
+                }
+            });
+
+            //when mouse enters tool icon it scales slightly
+            $(document).on('mouseenter', '#bowl', function () {
+                $(this).css('scale', '1.1 1.1');
+            });
+
+            $(document).on('mouseleave', '#bowl', function () {
+                $(this).css('scale', '1 1');
+            });
+
+            $(document).on('click', '#bowl', function () {
+                selectedItems.sort();
+                checkRecipie(["Chopped Essence", "Crushed Whisperleaf", "Dried Lotus"], "Potion of Health");
+                checkRecipie(["Crushed Nightshade", "Dried Orchid", "Runeleaf Elixirfern"], "Potion of Stealth");
+                checkRecipie(["Chopped Whisperleaf", "Dried Essence", "Phoenix Emberthorn"], "Potion of Knowledge");
+                checkRecipie(["Chopped Elixirfern", "Chopped Lotus", "Dried Orchid"], "Potion of Rejuvenation");
+                checkRecipie(["Crushed Lotus", "Faerie Mist Orchid", "Shadowfire Nightshade"], "Potion of Strength");
+                checkRecipie(["Chopped Emberthorn", "Crushed Emberthorn", "Dried Emberthorn"], "Potion of Wealth");
+
+            });
+
+            function checkRecipie(ingredient, reward) {
+                for (let i = 0; i < selectedItems.length; i++) {
+                    if (selectedItems[i] === null) {
+                        console.log("null")
+                        return;
+                    } else if (selectedItems[i][0] !== ingredient[i]) {
+                        return;
+                    }
+                }
+
+                for (let i = 0; i < selectedItems.length; i++) {
+                    invSubtractItem(selectedItems[i][0]);
+                }
+
+                invAddItem(reward);
+
+                $('#itemMade').html(reward);
+                $('#rewardGivenOuter').show();
+                let relevantIcon = reward;
+                relevantIcon = "#" + relevantIcon.replace(/\s+/g, '');
+                $(relevantIcon).show();
+            };
+
+            $(document).on('click', '#acceptReward', function () {
+                reloadTables();
+            });
+
+            function invAddItem(name) {
+                let temp = Number(localStorage.getItem(name));
+                temp += 1;
+                localStorage.setItem(name, temp);
+            }
+
+            function invSubtractItem(name) {
+                let temp = Number(localStorage.getItem(name));
+                temp -= 1;
+                localStorage.setItem(name, temp);
+            }
+
+            $(document).on('click', '#book', function () {
+                $('#bookHolder').show();
+                $('#leftArrow').hide();
+                $('.bookPage').hide();
+                $('#page1').show();
+                pageNum = 1;
+            })
+
+            $(document).on('click', '#closeBook', function () {
+                $('#bookHolder').hide();
+                $('.bookPage').hide();
+                pageNum = 1;
+            })
+
+            $(document).on('click', '#rightArrow', function () {
+                pageNum++;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if(pageNum === 2){
+                    $('#leftArrow').show();
+                }
+                if(pageNum === 6){
+                    $('#rightArrow').hide();
+                }
+            })
+
+            $(document).on('click', '#leftArrow', function () {
+                pageNum--;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if(pageNum === 5){
+                    $('#rightArrow').show();
+                }
+                if(pageNum === 1){
+                    $('#leftArrow').hide();
+                }
+            })
+
+            $(document).on('click', '#returnToStore', function () {
+                let page = localStorage.getItem('day');
+                page = page +'.html';
+                window.location = page;
+            })
+
+        })
+    </script>
+</head>
+
+<body>
+    <div id="stage">
+        <div id="icons">
+            <img src="Images/Sprites/Plants/ML.png" id="MoonshadowLotus" class="plant icon"
+                alt="Picture of a Moonshadow Lotus">
+            <img src="Images/Sprites/Plants/SE.png" id="StarbloomEssence" class="plant icon"
+                alt="Picture of a Starbloom Essence">
+            <img src="Images/Sprites/Plants/EW.png" id="EldertreeWhisperleaf" class="plant icon"
+                alt="Picture of an Eldertree Whisperleaf">
+            <img src="Images/Sprites/Plants/SN.png" id="ShadowfireNightshade" class="plant icon"
+                alt="Picture of a Shadowfire Nightshade">
+            <img src="Images/Sprites/Plants/FM.png" id="FaerieMistOrchid" class="plant icon"
+                alt="Picture of a Faerie Mist Orchid">
+            <img src="Images/Sprites/Plants/RE.png" id="RuneleafElixirfern" class="plant icon"
+                alt="Picture of a Runeleaf Elixirfern">
+            <img src="Images/Sprites/Plants/PE.png" id="PhoenixEmberthorn" class="plant icon"
+                alt="Picture of a Phoenix Emberthorn">
+
+            <img src="Images/Sprites/Plants/Chopped/ChoppedML.png" id="ChoppedLotus" class="choppedPlant icon"
+                alt="Picture of a chopped up Moonshadow Lotus">
+            <img src="Images/Sprites/Plants/Chopped/ChoppedSE.png" id="ChoppedEssence" class="choppedPlant icon"
+                alt="Picture of a chopped up Starbloom Essence">
+            <img src="Images/Sprites/Plants/Chopped/ChoppedEW.png" id="ChoppedWhisperleaf" class="choppedPlant icon"
+                alt="Picture of a chopped up Eldertree Whisperleaf">
+            <img src="Images/Sprites/Plants/Chopped/ChoppedSN.png" id="ChoppedNightshade" class="choppedPlant icon"
+                alt="Picture of a chopped up Shadowfire Nightshade">
+            <img src="Images/Sprites/Plants/Chopped/ChoppedFM.png" id="ChoppedOrchid" class="choppedPlant icon"
+                alt="Picture of a chopped up Faerie Mist Orchid">
+            <img src="Images/Sprites/Plants/Chopped/ChoppedRE.png" id="ChoppedElixirfern" class="choppedPlant icon"
+                alt="Picture of a chopped up Runeleaf Elixirfern">
+            <img src="Images/Sprites/Plants/Chopped/ChoppedPE.png" id="ChoppedEmberthorn" class="choppedPlant icon"
+                alt="Picture of a chopped up Phoenix Emberthorn">
+
+            <img src="Images/Sprites/Plants/Crushed/CrushedML.png" id="CrushedLotus" class="crushedPlant icon"
+                alt="Picture of a crushed Moonshadow Lotus">
+            <img src="Images/Sprites/Plants/Crushed/CrushedSE.png" id="CrushedEssence" class="crushedPlant icon"
+                alt="Picture of a crushed Starbloom Essence">
+            <img src="Images/Sprites/Plants/Crushed/CrushedEW.png" id="CrushedWhisperleaf" class="crushedPlant icon"
+                alt="Picture of a crushed Eldertree Whisperleaf">
+            <img src="Images/Sprites/Plants/Crushed/CrushedSN.png" id="CrushedNightshade" class="crushedPlant icon"
+                alt="Picture of a crushed Shadowfire Nightshade">
+            <img src="Images/Sprites/Plants/Crushed/CrushedFM.png" id="CrushedOrchid" class="crushedPlant icon"
+                alt="Picture of a crushed Faerie Mist Orchid">
+            <img src="Images/Sprites/Plants/Crushed/CrushedRE.png" id="CrushedElixirfern" class="crushedPlant icon"
+                alt="Picture of a crushed Runeleaf Elixirfern">
+            <img src="Images/Sprites/Plants/Crushed/CrushedPE.png" id="CrushedEmberthorn" class="crushedPlant icon"
+                alt="Picture of a crushed Phoenix Emberthorn">
+
+            <img src="Images/Sprites/Plants/Dried/DriedML.png" id="DriedLotus" class="driedPlant icon"
+                alt="Picture of a dried Moonshadow Lotus">
+            <img src="Images/Sprites/Plants/Dried/DriedSE.png" id="DriedEssence" class="driedPlant icon"
+                alt="Picture of a dried Starbloom Essence">
+            <img src="Images/Sprites/Plants/Dried/DriedEW.png" id="DriedWhisperleaf" class="driedPlant icon"
+                alt="Picture of a dried Eldertree Whisperleaf">
+            <img src="Images/Sprites/Plants/Dried/DriedSN.png" id="DriedNightshade" class="driedPlant icon"
+                alt="Picture of a dried Shadowfire Nightshade">
+            <img src="Images/Sprites/Plants/Dried/DriedFM.png" id="DriedOrchid" class="driedPlant icon"
+                alt="Picture of a dried Faerie Mist Orchid">
+            <img src="Images/Sprites/Plants/Dried/DriedRE.png" id="DriedElixirfern" class="driedPlant icon"
+                alt="Picture of a dried Runeleaf Elixirfern">
+            <img src="Images/Sprites/Plants/Dried/DriedPE.png" id="DriedEmberthorn" class="driedPlant icon"
+                alt="Picture of a dried Phoenix Emberthorn">
+        </div>
+
+        <div id="inventory">
+            <h1 id="title">INVENTORY</h1>
+            <ul id="items">
+                <div id="fresh"></div>
+                <div id="processed"></div>
+                <div id="potions"></div>
+            </ul>
+        </div>
+
+        <img src="Images/Sprites/Items/mixingBowl.png" id="bowl">
+
+        <img src="Images/Sprites/Icons/X.png" id="returnToStore">
+
+        <img src="Images/Sprites/Book/Book.png" id="book">
+
+        <div id="bookHolder">
+            <img src="Images/Sprites/Book/page1.png" id="page1" class="bookPage" alt="Recipe book page 1">
+            <img src="Images/Sprites/Book/page2.png" id="page2" class="bookPage" alt="Recipe book page 2">
+            <img src="Images/Sprites/Book/page3.png" id="page3" class="bookPage" alt="Recipe book page 3">
+            <img src="Images/Sprites/Book/page4.png" id="page4" class="bookPage" alt="Recipe book page 4">
+            <img src="Images/Sprites/Book/page5.png" id="page5" class="bookPage" alt="Recipe book page 5">
+            <img src="Images/Sprites/Book/page6.png" id="page6" class="bookPage" alt="Recipe book page 6">
+            
+            <img src="Images/Sprites/Icons/X.png" id="closeBook" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="leftArrow" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="rightArrow" class="bookIcon">      
+        </div>
+
+        <div id="rewardGivenOuter">
+            <div id="rewardGivenInner">
+                <h1>CONGRATS</h1>
+                <p>you made:</p>
+                <h1 id="itemMade">boeah ibia ioa</h1>
+
+                <img src="Images/Sprites/Potions/PotionOfHealth.png" id="PotionofHealth" class="potionReward"
+                    alt="A potion of Health">
+                <img src="Images/Sprites/Potions/PotionOfKnowledge.png" id="PotionofKnowledge" class="potionReward"
+                    alt="A potion of Knowledge">
+                <img src="Images/Sprites/Potions/PotionOfRejuvenation.png" id="PotionofRejuvenation"
+                    class="potionReward" alt="A potion of Rejuvenation">
+                <img src="Images/Sprites/Potions/PotionOfStealth.png" id="PotionofStealth" class="potionReward"
+                    alt="A potion of Stealth">
+                <img src="Images/Sprites/Potions/PotionOfStrength.png" id="PotionofStrength" class="potionReward"
+                    alt="A potion of Strength">
+                <img src="Images/Sprites/Potions/PotionOfWealth.png" id="PotionofWealth" class="potionReward"
+                    alt="A potion of Wealth">-
+
+                <button id="acceptReward">OK</button>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

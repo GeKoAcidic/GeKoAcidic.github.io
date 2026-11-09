@@ -1,0 +1,407 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Instore - Day 5</title>
+    <link href="css/store.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let eventNo = -1;
+            let progressable = true;
+
+
+            let eventText = [
+                "Hmm, it seems I need to stock up on ingredients.",
+                "Good morning, Cecil. I’m back again.",
+                "Good morning, Poetica. What brings you in today?",
+                "I’m seeking inspiration for my next ballad.",
+                "Do you have anything that could help awaken my creativity and enhance my mind?",
+                "Yes, a <b>Potion of Knowledge</b> should help with that.",
+                "Thank you, Cecil! This should be perfect. Here’s " + getGold(500) + " gold for your help.",
+                "You're welcome, Poetica. I look forward to hearing your new ballad.",
+                "You shall, Cecil. Thank you again.",
+                "That's unfortunate. I was really hoping for some inspiration.",
+                "I'm very sorry, Poetica.",
+                "I understand. Goodbye.",
+                "Greetings again, Cecil.",
+                "Greetings, Sir Froststeel. How can I assist you today?",
+                "I need a tincture that will allow me to spy on my next opponent.",
+                "Do you have anything that could help with that?",
+                "A <b>Potion of Stealth</b> should do the trick.",
+                "Excellent. This will be very useful. Here’s " + getGold(700) + " gold for your assistance.",
+                "You're welcome, Sir Froststeel. Good luck with your mission.",
+                "Thank you, Cecil. Farewell.",
+                "That's disappointing. I had hoped for your assistance.",
+                "My deepest apologies, Sir Froststeel.",
+                "Very well. I shall take my leave.",
+                "Good afternoon, Cecil. I’ve returned, and this time I brought my apprentice.",
+                "Good afternoon, Merlin. Welcome, young apprentice. How can I assist you both today?",
+                "My apprentice is eager to learn about the properties of various herbs and potions. We are particularly interested in Starbloom Essence.",
+                "Certainly, I should have a <b>Starbloom</b> Essence for you.",
+                "Thank you, Cecil. This will be most educational. Here’s " + getGold(400) + " gold for your assistance.",
+                "You're welcome, Merlin. I hope your apprentice finds the lesson enlightening.",
+                "I’m sure they will. Thank you again, Cecil.",
+                "That is disappointing. I had hoped for your assistance.",
+                "My deepest apologies, Merlin.",
+                "Very well. We shall take our leave.",
+                "Another eventful day. Each customer brings new challenges and opportunities.",
+                "Well, it has certainly been an eventful first week on the job.",
+                "Getting to know the locals, I really should get some rest, prepare for the many weeks to come."
+            ]
+            let speaker = [
+                "Cecil",
+                "Poetica",
+                "Cecil",
+                "Poetica",
+                "Poetica",
+                "Cecil",
+                "Poetica",
+                "Cecil",
+                "Poetica",
+                "Poetica",
+                "Cecil",
+                "Poetica",
+                "Sir Froststeel",
+                "Cecil",
+                "Sir Froststeel",
+                "Sir Froststeel",
+                "Cecil",
+                "Sir Froststeel",
+                "Cecil",
+                "Sir Froststeel",
+                "Sir Froststeel",
+                "Cecil",
+                "Sir Froststeel",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Cecil",
+                "Cecil",
+                "Cecil"
+            ]
+
+            let currCustomer = 0;
+            let stage = localStorage.getItem('stage');
+
+            $('#content').html(eventText[eventNo]);
+
+            $('#bookHolder').hide();
+            $('.customer').hide();
+            $('#acceptQuest').hide();
+
+            if (stage != 0) {
+                $('#introSplash').hide();
+            }
+
+            $('#introSplash').click(function () {
+                $('#introSplash').fadeOut();
+            })
+
+            $('#cecil').click(events);
+            $('#output').click(events);
+            $('.customer').click(events);
+
+            eventNo = stage - 1;
+
+            events();
+
+            function events() {
+                if (progressable) {
+                    eventNo++
+                }
+                localStorage.setItem('stage', eventNo);
+
+                if (eventNo < eventText.length) {
+                    $('#content').html(eventText[eventNo]);
+                } else {
+                    localStorage.setItem('day', "endscreen")
+                    localStorage.setItem("stage", 0);
+                    window.location = 'endscreen.html'
+                }
+
+                changeSpeaker(speaker[eventNo]);
+
+
+                if (eventNo == 0) {
+                    if (progressable) {
+                        progressable = false;
+                    } else if (!progressable) {
+                        localStorage.setItem("stage", 1);
+                        window.location = 'plantStore.html';
+                    }
+                }
+
+                //events for poetica
+                if (eventNo == 1) {
+                    $('#poetica').fadeIn(1000);
+                }
+                if (eventNo > 1 && eventNo < 12) {
+                    $('#poetica').show();
+                }
+                if (eventNo == 5) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 1;
+                }
+                if(eventNo == 6){
+                    $('#content').html("Thank you, Cecil! This should be perfect. Here’s " + getGold(500) + " gold for your help.");
+                }
+                if (eventNo == 8) {
+                    eventNo = 11;
+                }
+
+                //end of poetica, start of gawain
+                if (eventNo == 12) {
+                    $('#poetica').fadeOut();
+                    $('#gawain').fadeIn(1000);
+                }
+                if (eventNo > 12 && eventNo < 23) {
+                    $('#gawain').show();
+                }
+                if (eventNo == 16) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 2;
+                }
+                if(eventNo == 17){
+                    $('#content').html("Excellent. This will be very useful. Here’s " + getGold(700) + " gold for your assistance.");
+                }
+                if (eventNo == 19) {
+                    eventNo = 22;
+                }
+
+                //end of gawain, start of merlin
+                if (eventNo == 23) {
+                    $('#gawain').fadeOut();
+                    $('#merlin').fadeIn(1000);
+                }
+                if (eventNo > 23 && eventNo < 33) {
+                    $('#merlin').show();
+                }
+                if (eventNo == 26) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 3;
+                }
+                if(eventNo == 27){
+                    $('#content').html("Thank you, Cecil. This will be most educational. Here’s " + getGold(400) + " gold for your assistance.");
+                }
+                if (eventNo == 29) {
+                    eventNo = 32;
+                }
+                if (eventNo == 33) {
+                    $('#merlin').fadeOut();
+                }
+
+            }
+
+            $(document).on('click', '#yes', function () {
+                if (currCustomer == 1) {
+                    questAccepted("Potion of Knowledge", 500)
+                }
+                if (currCustomer == 2) {
+                    questAccepted("Potion of Stealth", 700)
+                }
+                if (currCustomer == 3) {
+                    questAccepted("Starbloom Essence", 400)
+                }
+            })
+
+            $(document).on('click', '#no', function () {
+                let rep = Number(localStorage.getItem("Reputation"));
+                rep -= 0.1;
+                if (rep < 0.2) {
+                    rep = 0.2;
+                }
+                rep = rep.toFixed(1);
+                localStorage.setItem("Reputation", rep);
+
+                $('#acceptQuest').hide();
+
+                if (currCustomer == 1) {
+                    eventNo = 9;
+                }
+                if (currCustomer == 2) {
+                    eventNo = 20;
+                }
+                if (currCustomer == 3) {
+                    eventNo = 30;
+                }
+                events();
+                progressable = true;
+            })
+
+            function questAccepted(item, reward) {
+                let have = localStorage.getItem(item);
+                if (have > 0) {
+                    have--
+                    localStorage.setItem(item, have)
+                    let gold = Number(localStorage.getItem("Gold"));
+                    let rep = Number(localStorage.getItem("Reputation"));
+                    reward *= rep;
+                    gold += reward
+                    rep += 0.1;
+                    gold = Math.round(gold);
+                    rep = rep.toFixed(1);
+                    localStorage.setItem("Gold", gold);
+                    localStorage.setItem("Reputation", rep);
+                    progressable = true;
+                    events();
+                    $('#acceptQuest').hide();
+                } else {
+                    changeSpeaker("Cecil")
+                    $('#content').html("<b><i>I don't have that item</i></b>");
+                }
+            }
+
+            $(document).on('click', '#book', function () {
+                $('#bookHolder').show();
+                $('#leftArrow').hide();
+                $('.bookPage').hide();
+                $('#page1').show();
+                pageNum = 1;
+            })
+            $(document).on('click', '#closeBook', function () {
+                $('#bookHolder').hide();
+                $('.bookPage').hide();
+                pageNum = 1;
+            })
+            $(document).on('click', '#rightArrow', function () {
+                pageNum++;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 2) {
+                    $('#leftArrow').show();
+                }
+                if (pageNum === 6) {
+                    $('#rightArrow').hide();
+                }
+            })
+            $(document).on('click', '#leftArrow', function () {
+                pageNum--;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 5) {
+                    $('#rightArrow').show();
+                }
+                if (pageNum === 1) {
+                    $('#leftArrow').hide();
+                }
+            })
+            $(document).on('click', '.tool', function () {
+                let pageName = $(this).data('pagename');
+                localStorage.setItem("stage", eventNo);
+                window.location = pageName;
+            })
+
+            function changeSpeaker(name) {
+                $('#speaker').html(name + ":");
+                $("#speaker").css('font-size', '30px')
+                if (name === "Tutorial") {
+                    $('#speaker').css('color', '#f0f0f0')
+                }
+                if (name === "Cecil") {
+                    $('#speaker').css('color', '#4287f5')
+                }
+                if (name === "Poetica") {
+                    $('#speaker').css('color', '#fa41a4')
+                }
+                if (name === "Sir Froststeel") {
+                    $('#speaker').css({
+                        'color': '#bfbfbf',
+                        'font-size': '22px',
+                    })
+                }
+                if (name === "Thorn") {
+                    $('#speaker').css('color', '#fa3e2d')
+                }
+                if (name === "King Ironheart") {
+                    $('#speaker').css({
+                        'color': '#ffdb0f',
+                        'font-size': '20px',
+                    })
+                }
+                if (name === "Merlin") {
+                    $('#speaker').css('color', '#bf0fff')
+                }
+                if (name === "Riven") {
+                    $('#speaker').css('color', '#54ff68')
+                }
+                if (name === "Thistle") {
+                    $('#speaker').css('color', '#8a4000')
+                }
+            }
+
+            function getGold(amount) {
+                let rep = Number(localStorage.getItem("Reputation"));
+                rep -= 0.1;
+                rep=rep.toFixed(1)
+                console.log(rep);
+                amount *= rep;
+                amount = Math.round(amount)
+                return amount;
+            }
+
+
+        })
+    </script>
+</head>
+
+<body>
+    <div id="stage">
+        <img src="Images/Sprites/People/Cecil.png" id="cecil" alt="A picture of Cecil">
+        <img src="Images/Sprites/People/Poetica.png" id="poetica" class="customer" alt="A picture of Poetica">
+        <img src="Images/Sprites/People/Gawain.png" id="gawain" class="customer" alt="A picture of Gawain">
+        <img src="Images/Sprites/People/Merlin.png" id="merlin" class="customer" alt="A picture of Merlin">
+
+        <img src="Images/Sprites/Items/mortar.png" id="mortar" class="tool" data-pagename="mortar.html"
+            alt="a picture of a mortar and pestle">
+        <img src="Images/Sprites/Items/dryingRack.png" id="rack" class="tool" data-pagename="rack.html"
+            alt="a picture of a drying rack">
+        <img src="Images/Sprites/Items/choppingBoard.png" id="board" class="tool" data-pagename="board.html"
+            alt="a picture of a chopping board">
+        <img src="Images/Sprites/Items/mixingBowl.png" id="bowl" class="tool" data-pagename="bowl.html"
+            alt="a picture of a mixingBowl">
+
+        <div id="output">
+            <p id="speaker">Cecil:</p>
+            <p id="content">Test</p>
+        </div>
+        <div id="acceptQuest">
+            <button id="yes" class="questBtn">ACCEPT</button>
+            <button id="no" class="questBtn">DENY</button>
+        </div>
+
+        <img src="Images/Sprites/Book/Book.png" id="book">
+
+        <div id="bookHolder">
+            <img src="Images/Sprites/Book/page1.png" id="page1" class="bookPage" alt="Recipe book page 1">
+            <img src="Images/Sprites/Book/page2.png" id="page2" class="bookPage" alt="Recipe book page 2">
+            <img src="Images/Sprites/Book/page3.png" id="page3" class="bookPage" alt="Recipe book page 3">
+            <img src="Images/Sprites/Book/page4.png" id="page4" class="bookPage" alt="Recipe book page 4">
+            <img src="Images/Sprites/Book/page5.png" id="page5" class="bookPage" alt="Recipe book page 5">
+            <img src="Images/Sprites/Book/page6.png" id="page6" class="bookPage" alt="Recipe book page 6">
+
+            <img src="Images/Sprites/Icons/X.png" id="closeBook" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="leftArrow" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="rightArrow" class="bookIcon">
+        </div>
+
+        <div id="introSplash">
+            <h1 id="introSplashTxt">DAY 5</h1>
+        </div>
+    </div>
+</body>
+
+</html>

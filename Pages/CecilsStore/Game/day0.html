@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Instore</title>
+<link href="css/store.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        localStorage.clear();
+        let eventNo = 0;
+
+        const eventText = [
+            "Sagebark Willow, it's an honour to meet you. I've heard tales of your expertise in herbalism.",
+            "The honour is mine, young Cecil. I see you've come to take over the shop. It's time for me to pass the reins to a new generation.",
+            "Yes, I've long dreamt of running my own apothecary. Your shop here in Alderbrook seems like the perfect opportunity.",
+            "I've no doubt you'll do well. It's a fine establishment with a loyal clientele.", 
+            "Just remember, it's not just about selling potions; it's about offering care and compassion.",
+            "I understand. I promise to honour the legacy of this shop and serve the people of Alderbrook with integrity.",
+            "I have faith in you, Cecil. May your journey be filled with prosperity and purpose.",
+            "Thank you, Mr Willow. I won't let you down.",
+            "Farewell, young herbalist. May the herbs always be in your favour.",
+            "",
+            "Sagebark's departure marks the beginning of a new chapter.", 
+            "But before I open the shop tomorrow, perhaps I should brush up on my potion-making skills.", 
+            "I've spent so much time on the road, I might be a bit rusty.", 
+            "It wouldn't do to disappoint the first customers with subpar potions.", 
+            "Time to get back to basics. Practice makes perfect, after all."
+        ]
+
+        const speaker = [
+            "Cecil: ",
+            "Sagebark: ",
+            "Cecil: ",
+            "Sagebark: ",
+            "Sagebark: ",
+            "Cecil: ",
+            "Sagebark: ",
+            "Cecil: ",
+            "Sagebark: ",
+            "",
+            "Cecil: ",
+            "Cecil: ",
+            "Cecil: ",
+            "Cecil: ",
+            "Cecil: "
+        ]
+
+        $('#speaker').html(speaker[eventNo]);
+        $('#content').html(eventText[eventNo]);
+        
+        $('#cecil').click(events);
+        $('#sagebark').click(events);
+        $('#output').click(events);
+
+        function events() {
+            eventNo++
+            if(eventNo < eventText.length){
+                $('#speaker').html(speaker[eventNo]);
+                $('#content').html(eventText[eventNo]);
+            } else {
+                localStorage.setItem("day", "tutorial");
+                localStorage.setItem("stage", "0")
+                window.location = 'tutorial.html'
+            }
+            if(eventNo == 9){
+                $('#sagebark').fadeOut();
+                $('#output').hide();
+            }
+            if(eventNo == 10){
+                $('#output').show();
+            }
+
+            if(speaker[eventNo]==="Cecil: "){
+                $('#speaker').css('color', '#4287f5')
+            } else if(speaker[eventNo]=="Sagebark: "){
+                $('#speaker').css('color', '#808080')
+            }
+        }
+    })
+</script>
+</head>
+<body>
+    <div id="stage">
+        <img src="Images/Sprites/People/Cecil.png" id="cecil" alt="A picture of Cecil">
+        <img src="Images/Sprites/People/Sagebark.png" id="sagebark" alt="A picture of Sagebark">
+        <div id="output">
+            <p id="speaker">Cecil:</p>
+            <p id="content">blah blah blah</p>
+        </div>
+
+    </div>
+</body>
+</html>

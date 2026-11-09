@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Plant Store</title>
+    <link href="css/plantStore.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            let gold = localStorage.getItem("Gold");
+
+            let plant1 = localStorage.getItem("Moonshadow Lotus");
+            let plant2 = localStorage.getItem("Starbloom Essence");
+            let plant3 = localStorage.getItem("Eldertree Whisperleaf");
+            let plant4 = localStorage.getItem("Shadowfire Nightshade");
+            let plant5 = localStorage.getItem("Faerie Mist Orchid");
+            let plant6 = localStorage.getItem("Runeleaf Elixirfern");
+            let plant7 = localStorage.getItem("Phoenix Emberthorn");
+
+            updateGold();
+
+            
+            $('#bookHolder').hide();
+
+            $('#plantML').click(function () {
+                if (checkIfPurchaseable($(this).data('cost'), "Moonshadow Lotus")) {
+                    plant1++;
+                    localStorage.setItem("Moonshadow Lotus", plant1);
+                }
+            });
+
+            $('#plantSE').click(function () {
+                if (checkIfPurchaseable($(this).data('cost'), "Starbloom Essence")) {
+                    plant2++;
+                    localStorage.setItem("Starbloom Essence", plant2);
+                }
+            });
+
+            $('#plantEW').click(function () {
+                if (checkIfPurchaseable($(this).data('cost'), "Eldertree Whisperleaf")) {
+                    plant3++;
+                    localStorage.setItem("Eldertree Whisperleaf", plant3);
+                }
+            });
+
+            $('#plantSN').click(function () {
+                if (checkIfPurchaseable($(this).data('cost'), "Shadowfire Nightshade")) {
+                    plant4++;
+                    localStorage.setItem("Shadowfire Nightshade", plant4);
+                }
+            });
+
+            $('#plantFM').click(function () {
+                if (checkIfPurchaseable($(this).data('cost'), "Faerie Mist Orchid")) {
+                    plant5++;
+                    localStorage.setItem("Faerie Mist Orchid", plant5);
+                }
+            });
+
+            $('#plantRE').click(function () {
+                if (checkIfPurchaseable($(this).data('cost'), "Runeleaf Elixirfern")) {
+                    plant6++;
+                    localStorage.setItem("Runeleaf Elixirfern", plant6);
+                }
+            });
+
+            $('#plantPE').click(function () {
+                if (checkIfPurchaseable($(this).data('cost'), "Phoenix Emberthorn")) {
+                    plant7++;
+                    localStorage.setItem("Phoenix Emberthorn", plant7);
+                }
+            });
+
+            function updateGold() {
+                $('#goldBox').html('$' + gold)
+                localStorage.setItem("Gold", gold);
+            }
+
+            function checkIfPurchaseable(cost, itemname) {
+                if (cost <= gold) {
+                    gold -= cost;
+                    updateGold();
+                    $('#content').html('You bought one ' + itemname);
+                    return true;
+                }
+                else {
+                    $('#content').html('NOT ENOUGH MONEY');
+                }
+            }
+
+            //Expand on hover
+            $('.plant').on("mouseenter", function () {
+                $(this).css('scale', '1.1 1.1');
+                $('#content').html($(this).data('name') + ': $' + $(this).data('cost'));
+            });
+
+            $('.plant').on("mouseleave", function () {
+                $(this).css('scale', '1 1');
+                $('#content').html('Welcome to the plant store!');
+            });
+
+            $(document).on('click', '#book', function () {
+                $('#bookHolder').show();
+                $('#leftArrow').hide();
+                $('.bookPage').hide();
+                $('#page1').show();
+                pageNum = 1;
+            })
+
+            $(document).on('click', '#closeBook', function () {
+                $('#bookHolder').hide();
+                $('.bookPage').hide();
+                pageNum = 1;
+            })
+
+            $(document).on('click', '#rightArrow', function () {
+                pageNum++;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if(pageNum === 2){
+                    $('#leftArrow').show();
+                }
+                if(pageNum === 6){
+                    $('#rightArrow').hide();
+                }
+            })
+
+            $(document).on('click', '#leftArrow', function () {
+                pageNum--;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if(pageNum === 5){
+                    $('#rightArrow').show();
+                }
+                if(pageNum === 1){
+                    $('#leftArrow').hide();
+                }
+            })
+
+            $(document).on('click', '#returnToStore', function () {
+                let page = localStorage.getItem('day');
+                page = page + '.html';
+                window.location = page;
+            })
+
+        })
+    </script>
+</head>
+
+<body>
+    <div id="stage">
+
+        <img src="Images/Sprites/Plants/Potted/PottedML.png" id="plantML" class="plant" data-cost="100"
+            data-name="Moonshadow Lotus" alt="Picture of a Moonshadow Lotus">
+        <img src="Images/Sprites/Plants/Potted/PottedSE.png" id="plantSE" class="plant" data-cost="125"
+            data-name="Starbloom Essence" alt="Picture of a Starbloom Essence">
+        <img src="Images/Sprites/Plants/Potted/PottedEW.png" id="plantEW" class="plant" data-cost="125"
+            data-name="Eldertree Whisperleaf" alt="Picture of an Eldertree Whisperleaf">
+        <img src="Images/Sprites/Plants/Potted/PottedSN.png" id="plantSN" class="plant" data-cost="130"
+            data-name="Shadowfire Nightshade" alt="Picture of a Shadowfire Nightshade">
+        <img src="Images/Sprites/Plants/Potted/PottedFM.png" id="plantFM" class="plant" data-cost="140"
+            data-name="Faerie Mist Orchid" alt="Picture of a Faerie Mist Orchid">
+        <img src="Images/Sprites/Plants/Potted/PottedRE.png" id="plantRE" class="plant" data-cost="150"
+            data-name="Runeleaf Elixirfern" alt="Picture of a Runeleaf Elixirfern">
+        <img src="Images/Sprites/Plants/Potted/PottedPE.png" id="plantPE" class="plant" data-cost="200"
+            data-name="Phoenix Emberthorn" alt="Picture of a Phoenix Emberthorn">
+
+        <div id="output">
+            <p id="speaker">Store:</p>
+            <p id="content">Welcome to the plant store!</p>
+        </div>
+
+        <div id="goldBox">
+            <p>$999999</p>
+        </div>
+
+        <img src="Images/Sprites/Book/Book.png" id="book">
+        <img src="Images/Sprites/Icons/X.png" id="returnToStore">
+
+        <div id="bookHolder">
+            <img src="Images/Sprites/Book/page1.png" id="page1" class="bookPage" alt="Recipe book page 1">
+            <img src="Images/Sprites/Book/page2.png" id="page2" class="bookPage" alt="Recipe book page 2">
+            <img src="Images/Sprites/Book/page3.png" id="page3" class="bookPage" alt="Recipe book page 3">
+            <img src="Images/Sprites/Book/page4.png" id="page4" class="bookPage" alt="Recipe book page 4">
+            <img src="Images/Sprites/Book/page5.png" id="page5" class="bookPage" alt="Recipe book page 5">
+            <img src="Images/Sprites/Book/page6.png" id="page6" class="bookPage" alt="Recipe book page 6">
+            
+            <img src="Images/Sprites/Icons/X.png" id="closeBook" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="leftArrow" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="rightArrow" class="bookIcon">      
+        </div>
+
+
+    </div>
+</body>
+</html>

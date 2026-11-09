@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Instore - Day 1</title>
+    <link href="css/store.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let eventNo = -1;
+            let progressable = true;
+
+
+            let eventText = [
+                "A new day in Alderbrook. Time to get started.",
+                "It’s time for you to visit the herb store to buy ingredients.",
+                "For today Sagebark conveniently left you $1000 to get started.",
+                "But from now on, all ingredients will have to be purchased with gold you earn from selling potions.",
+                "It is recommended to have enough ingredients to make one of each potion.",
+                "But be careful not to overstock, or you may not have enough money at the end of the week.",
+                "Time to open the shop and get ready for my first customer.",
+                "Good morning! You must be Cecil Woodgreen. I've heard tell we have a new herbalist in town.",
+                "That's right. How can I help you today?",
+                "Well my name is Poetica Star, I’m a travelling bard.",
+                "I've been on the road for a long time, my vocal cords are strained, and my voice is getting hoarse.",
+                "Do you have anything that could soothe them?",
+                "Let me see... Ah, a <b>Potion of Healing</b> should do the trick.",
+                "For every customer you will be given the option to satisfy their wishes, or to turn them away.",
+                "Note: If you do not have the potion ready you can always make it.",
+                "But if you do not have the ingredients for it, then you will be forced to turn them away.",
+                "One final note to keep in mind: accepting and rejecting people will affect your standing within the community.",
+                "Which in turn will directly affect how much you are paid for completing each order.",
+                "Give Poetica one Potion of Health?",
+                "Thank you so much, Cecil! This will be a great help.",
+                "Here’s " + getGold(500) + " gold for your trouble",
+                "You're welcome. Take care and rest those vocal cords.",
+                "I will. Best of luck with your new shop!",
+                "Oh, that’s a shame",
+                "I’m very sorry about that.",
+                "Hmph.",
+                "My first customer. This is just the beginning."
+            ]
+            let speaker = [
+                "Cecil",
+                "Tutorial",
+                "Tutorial",
+                "Tutorial",
+                "Tutorial",
+                "Tutorial",
+                "Cecil",
+                "Poetica",
+                "Cecil",
+                "Poetica",
+                "Poetica",
+                "Poetica",
+                "Cecil",
+                "Tutorial",
+                "Tutorial",
+                "Tutorial",
+                "Tutorial",
+                "Tutorial",
+                "Tutorial",
+                "Poetica",
+                "Poetica",
+                "Cecil",
+                "Poetica",
+                "Poetica",
+                "Cecil",
+                "Poetica",
+                "Cecil",
+            ]
+
+            let currCustomer = 0;
+            let stage = localStorage.getItem('stage');
+
+            $('#content').html(eventText[eventNo]);
+
+            $('#bookHolder').hide();
+            $('.customer').hide();
+            $('#acceptQuest').hide();
+
+            if (stage != 0) {
+                $('#introSplash').hide();
+            }
+
+            $('#introSplash').click(function () {
+                $('#introSplash').fadeOut();
+            })
+
+            $('#cecil').click(events);
+            $('#output').click(events);
+            $('.customer').click(events);
+
+            eventNo = stage - 1;
+
+            events();
+
+            function events() {
+                if (progressable) {
+                    eventNo++
+                }
+                localStorage.setItem('stage', eventNo);
+
+                if (eventNo < eventText.length) {
+                    $('#content').html(eventText[eventNo]);
+                } else {
+                    localStorage.setItem('day', "day2")
+                    localStorage.setItem("stage", 0);
+                    window.location = 'day2.html'
+                }
+
+                changeSpeaker(speaker[eventNo]);
+
+                if (eventNo == 2) {
+                    localStorage.setItem("Gold", 1000);
+                    localStorage.setItem("Reputation", 1)
+                }
+                if (eventNo == 5) {
+                    if (progressable) {
+                        progressable = false;
+                    } else if (!progressable) {
+                        localStorage.setItem("stage", 6);
+                        window.location = 'plantStore.html';
+                    }
+                }
+
+                if (eventNo == 7) {
+                    $('#Poetica').fadeIn();
+                }
+
+                if (eventNo > 7 && eventNo<26) {
+                    $('#Poetica').show();
+                }
+
+                if (eventNo == 18) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 1;
+                }
+
+                if (eventNo == 22) {
+                    eventNo = 25;
+                }
+
+                if(eventNo == 26){
+                    $('#Poetica').fadeOut();
+                }
+
+            }
+
+            $(document).on('click', '#yes', function () {
+                if (currCustomer == 1) {
+                    questAccepted("Potion of Health", 500)
+                }
+            })
+
+            $(document).on('click', '#no', function () {
+                let rep = Number(localStorage.getItem("Reputation"));
+                rep -= 0.1;
+                if (rep < 0.2) {
+                    rep = 0.2;
+                }
+                rep = rep.toFixed(1);
+                localStorage.setItem("Reputation", rep);
+
+                $('#acceptQuest').hide();
+
+                if (currCustomer == 1) {
+                    eventNo = 23;
+                }
+                events();
+                progressable = true;
+            })
+
+            $(document).on('click', '#book', function () {
+                $('#bookHolder').show();
+                $('#leftArrow').hide();
+                $('.bookPage').hide();
+                $('#page1').show();
+                pageNum = 1;
+            })
+            $(document).on('click', '#closeBook', function () {
+                $('#bookHolder').hide();
+                $('.bookPage').hide();
+                pageNum = 1;
+            })
+            $(document).on('click', '#rightArrow', function () {
+                pageNum++;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 2) {
+                    $('#leftArrow').show();
+                }
+                if (pageNum === 6) {
+                    $('#rightArrow').hide();
+                }
+            })
+            $(document).on('click', '#leftArrow', function () {
+                pageNum--;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 5) {
+                    $('#rightArrow').show();
+                }
+                if (pageNum === 1) {
+                    $('#leftArrow').hide();
+                }
+            })
+            $(document).on('click', '.tool', function () {
+                let pageName = $(this).data('pagename');
+                localStorage.setItem("stage", eventNo);
+                window.location = pageName;
+            })
+
+            function changeSpeaker(name) {
+                $('#speaker').html(name + ":");
+                if (name === "Tutorial") {
+                    $('#speaker').css('color', '#f0f0f0')
+                }
+                if (name === "Cecil") {
+                    $('#speaker').css('color', '#4287f5')
+                }
+                if (name === "Poetica") {
+                    $('#speaker').css('color', '#fa41a4')
+                }
+            }
+
+            function questAccepted(item, reward) {
+                let have = localStorage.getItem(item);
+                if (have > 0) {
+                    have--
+                    localStorage.setItem(item, have)
+                    let gold = Number(localStorage.getItem("Gold"));
+                    let rep = Number(localStorage.getItem("Reputation"));
+                    reward *= rep;
+                    gold += reward
+                    rep += 0.1;
+                    gold = Math.round(gold);
+                    rep = rep.toFixed(1);
+                    localStorage.setItem("Gold", gold);
+                    localStorage.setItem("Reputation", rep);
+                    progressable = true;
+                    events();
+                    $('#acceptQuest').hide();
+                } else {
+                    changeSpeaker("Cecil")
+                    $('#content').html("<b><i>I don't have that item</i></b>");
+                }
+            }
+
+            function getGold(amount) {
+                let rep = Number(localStorage.getItem("Reputation"));
+                amount *= rep;
+                return amount;
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <div id="stage">
+        <img src="Images/Sprites/People/Cecil.png" id="cecil" alt="A picture of Cecil">
+        <img src="Images/Sprites/People/Poetica.png" id="Poetica" class="customer" alt="A picture of Poetica">
+
+        <img src="Images/Sprites/Items/mortar.png" id="mortar" class="tool" data-pagename="mortar.html"
+            alt="a picture of a mortar and pestle">
+        <img src="Images/Sprites/Items/dryingRack.png" id="rack" class="tool" data-pagename="rack.html"
+            alt="a picture of a drying rack">
+        <img src="Images/Sprites/Items/choppingBoard.png" id="board" class="tool" data-pagename="board.html"
+            alt="a picture of a chopping board">
+        <img src="Images/Sprites/Items/mixingBowl.png" id="bowl" class="tool" data-pagename="bowl.html"
+            alt="a picture of a mixingBowl">
+
+        <div id="output">
+            <p id="speaker">Cecil:</p>
+            <p id="content">Test</p>
+        </div>
+        <div id="acceptQuest">
+            <button id="yes" class="questBtn">ACCEPT</button>
+            <button id="no" class="questBtn">DENY</button>
+        </div>
+
+        <img src="Images/Sprites/Book/Book.png" id="book">
+
+        <div id="bookHolder">
+            <img src="Images/Sprites/Book/page1.png" id="page1" class="bookPage" alt="Recipe book page 1">
+            <img src="Images/Sprites/Book/page2.png" id="page2" class="bookPage" alt="Recipe book page 2">
+            <img src="Images/Sprites/Book/page3.png" id="page3" class="bookPage" alt="Recipe book page 3">
+            <img src="Images/Sprites/Book/page4.png" id="page4" class="bookPage" alt="Recipe book page 4">
+            <img src="Images/Sprites/Book/page5.png" id="page5" class="bookPage" alt="Recipe book page 5">
+            <img src="Images/Sprites/Book/page6.png" id="page6" class="bookPage" alt="Recipe book page 6">
+
+            <img src="Images/Sprites/Icons/X.png" id="closeBook" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="leftArrow" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="rightArrow" class="bookIcon">
+        </div>
+
+        <div id="introSplash">
+            <h1 id="introSplashTxt">DAY 1</h1>
+        </div>
+    </div>
+</body>
+
+</html>

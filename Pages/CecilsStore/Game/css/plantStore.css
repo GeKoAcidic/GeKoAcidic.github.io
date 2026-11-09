@@ -1,0 +1,171 @@
+#stage {
+    width: 1280px;
+    height: 720px;
+    margin: auto;
+    position: relative;
+    background-image: url(../Images/Backgrounds/plantStoreBackground.jpg);
+    overflow: hidden;
+}
+
+
+#output {
+    background: black;
+    color:white;
+    width:100%;
+    margin:auto;
+    position:absolute;
+    bottom:0px;
+    padding: 20px;
+    box-sizing:border-box;
+    font-family: trajan-pro-3, serif;
+    font-style: normal;
+    font-weight: 200;
+    display: grid;
+    grid-template-columns: 10% 90%;
+    gap:10px;
+}
+
+#goldBox {
+    background: rgb(36, 36, 36);
+    border-style: double;
+    border-color: gold;
+    color:gold;
+    width:15%;
+    position:absolute;
+    bottom:680px;
+    padding: 20px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    box-sizing:border-box;
+    font-family: trajan-pro-3, serif;
+    font-style: normal;
+    font-weight: 200;
+    font-size: 30px;
+}
+
+#speaker {
+    margin: auto;
+    margin-right: 0px;
+    text-align: right;
+    font-size: 30px;
+    color: #979797;
+}
+
+#content {
+    margin: auto;
+    margin-left: 0px;
+    text-align: left;
+    font-size: 30px;
+}
+
+.plant {
+    margin: auto;
+    position:absolute;
+    bottom: 463px;
+    cursor: pointer;
+}
+
+#plantML {
+    left: 400px;
+}
+
+#plantSE {
+    left: 480px;
+}
+
+#plantEW {
+    left: 560px;
+}
+
+#plantSN {
+    left: 660px;
+}
+
+#plantFM {
+    left: 740px;
+}
+
+#plantRE {
+    left: 820px;
+}
+
+#plantPE {
+    left: 900px;
+}
+
+#book {
+    position:absolute;
+    margin:auto;
+    left: 1060px;
+    bottom: 550px;
+    cursor: pointer;
+    scale:0.666 0.666;
+}
+
+#book:hover {
+    scale:0.766 0.766;
+}
+
+#bookHolder {
+    margin: auto;
+    position:absolute;
+    height: 100%;
+    width:100%;
+    backdrop-filter: blur(10px);
+}
+
+.bookPage {
+    margin: auto;
+    position:absolute;
+    height: 100%;
+    width:100%;
+}
+
+.bookIcon {
+    margin: auto;
+    position:absolute;
+    cursor:pointer;
+}
+
+#closeBook{
+    left: -100px;
+    bottom: 350px;
+    scale: 0.15 0.15;
+}
+
+#closeBook:hover{
+    scale: 0.2 0.2;
+}
+
+#leftArrow{
+    scale: -0.15 0.15;
+    bottom: -200px;
+    left: -230px;
+}
+
+#leftArrow:hover{
+    scale: -0.2 0.2;
+}
+
+#rightArrow{
+    scale: 0.15 0.15;
+    bottom: -200px;
+    left: 700px;
+}
+
+#rightArrow:hover{
+    scale: 0.2 0.2;
+}
+
+#returnToStore{
+    margin: auto;
+    position:absolute;
+    cursor:pointer;
+    left: -230px;
+    bottom: 320px;
+    scale: 0.15 0.15;
+}
+
+#returnToStore:hover{
+    scale: 0.2 0.2;
+}

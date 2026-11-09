@@ -1,0 +1,450 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Instore - Day 4</title>
+    <link href="css/store.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let eventNo = -1;
+            let progressable = true;
+
+
+            let eventText = [
+                "Hmm, it seems I need to stock up on ingredients.",
+                "Good morning, Cecil. I'm back again.",
+                "Good morning, Thistle. How can I help you today?",
+                "My elderly neighbor is suffering from chronic pain. Do you have anything that could provide relief?",
+                "Yes, a <B>Potion of Rejuvenation</B> should help with that.",
+                "Thank you, Cecil. This will bring much-needed relief. Here’s " + getGold(300) + " gold for your help.",
+                "You're welcome, Thistle. I hope it helps your neighbor.",
+                "I'm sure it will. Thank you again. Farewell.",
+                "That's unfortunate. My neighbor could really use the help.",
+                "I'm very sorry, Thistle.",
+                "I understand. Goodbye.",
+                "Hello again, Cecil. I’m back, and this time I brought a friend.",
+                "Welcome back, Riven. What brings you both here?",
+                "My companion has acquired a mysterious ailment in the depths of a cursed dungeon. We need a potion to heal them.",
+                "A <B>Potion of Health</B> should help.",
+                "Thank you, Cecil! This should help my friend recover. Here’s " + getGold(600)+" gold for your trouble.",
+                "You're welcome. Take care and stay safe.",
+                "Will do. Thank you!",
+                "That's a shame. My friend really needs help.",
+                "I'm very sorry, Riven.",
+                "Guess we'll have to find another way. Farewell.",
+                "Greetings, Cecil. I am Merlin Starweaver.",
+                "Greetings, Merlin. How can I assist you today?",
+                "I am in need of rare herbs for my latest magical experiment.",
+                "Specifically, Eldertree Whisperleaf.",
+                "Certainly, I should have an <B>Eldertree Whisperleaf</B> around here somewhere.",
+                "Thank you, Cecil. This will be most useful. Here’s " + getGold(400)+" gold for your assistance.",
+                "You're welcome, Merlin. Good luck with your experiment.",
+                "Thank you. Farewell.",
+                "That is disappointing. I had hoped for your assistance.",
+                "My deepest apologies, Merlin.",
+                "Very well. I shall take my leave.",
+                "Evening, Cecil. I'm back, and I brought a friend.",
+                "What brings you here, Thorn?",
+                "My friend and I need a potion that can make us rich quickly. You understand, don't you?",
+                "I see. A <B>Potion of Wealth</B> might be what you're looking for.",
+                "Much appreciated, Cecil. Here’s " + getGold(200)+" gold for your troubles.",
+                "Take care, Thorn. And be careful out there.",
+                "Oh, I always am. Farewell.",
+                "That's disappointing, Cecil. I was really counting on your help.",
+                "I’m very sorry, Thorn.",
+                "Very well. But remember, I don't forget those who cross me.",
+                "Another eventful day. Each customer brings new challenges and opportunities."
+            ]
+            let speaker = [
+                "Cecil",
+                "Thistle",
+                "Cecil",
+                "Thistle",
+                "Cecil",
+                "Thistle",
+                "Cecil",
+                "Thistle",
+                "Thistle",
+                "Cecil",
+                "Thistle",
+                "Riven",
+                "Cecil",
+                "Riven",
+                "Cecil",
+                "Riven",
+                "Cecil",
+                "Riven",
+                "Riven",
+                "Cecil",
+                "Riven",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Merlin",
+                "Cecil",
+                "Merlin",
+                "Thorn",
+                "Cecil",
+                "Thorn",
+                "Cecil",
+                "Thorn",
+                "Cecil",
+                "Thorn",
+                "Thorn",
+                "Cecil",
+                "Thorn",
+                "Cecil"
+            ]
+
+            let currCustomer = 0;
+            let stage = localStorage.getItem('stage');
+
+            $('#content').html(eventText[eventNo]);
+
+            $('#bookHolder').hide();
+            $('.customer').hide();
+            $('#acceptQuest').hide();
+
+            if (stage != 0) {
+                $('#introSplash').hide();
+            }
+
+            $('#introSplash').click(function () {
+                $('#introSplash').fadeOut();
+            })
+
+            $('#cecil').click(events);
+            $('#output').click(events);
+            $('.customer').click(events);
+
+            eventNo = stage - 1;
+
+            events();
+
+            function events() {
+                if (progressable) {
+                    eventNo++
+                }
+                localStorage.setItem('stage', eventNo);
+
+                if (eventNo < eventText.length) {
+                    $('#content').html(eventText[eventNo]);
+                } else {
+                    localStorage.setItem('day', "day5")
+                    localStorage.setItem("stage", 0);
+                    window.location = 'day5.html'
+                }
+
+                changeSpeaker(speaker[eventNo]);
+
+
+                if (eventNo == 0) {
+                    if (progressable) {
+                        progressable = false;
+                    } else if (!progressable) {
+                        localStorage.setItem("stage", 1);
+                        window.location = 'plantStore.html';
+                    }
+                }
+
+                //events for thistle
+                if (eventNo == 1) {
+                    $('#thistle').fadeIn(1000);
+                }
+                if (eventNo > 1 && eventNo < 11) {
+                    $('#thistle').show();
+                }
+                if (eventNo == 4) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 1;
+                }
+                if(eventNo == 5){
+                    $('#content').html("Thank you, Cecil. This will bring much-needed relief. Here’s " + getGold(300) + " gold for your help.");
+                }
+                if (eventNo == 7) {
+                    eventNo = 10;
+                }
+
+                //end of thistle, start of riven
+                if (eventNo == 11) {
+                    $('#thistle').fadeOut();
+                    $('#riven').fadeIn(1000);
+                }
+                if (eventNo > 11 && eventNo < 21) {
+                    $('#riven').show();
+                }
+                if (eventNo == 14) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 2;
+                }
+                if(eventNo == 15){
+                    $('#content').html("Thank you, Cecil! This should help my friend recover. Here’s " + getGold(600)+" gold for your trouble.");
+                }
+                if (eventNo == 17) {
+                    eventNo = 20;
+                }
+
+                //end of riven, start of merlin
+                if (eventNo == 21) {
+                    $('#riven').fadeOut();
+                    $('#merlin').fadeIn(1000);
+                }
+                if (eventNo > 21 && eventNo < 32) {
+                    $('#merlin').show();
+                }
+                if (eventNo == 25) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 3;
+                }
+                if(eventNo == 26){
+                    $('#content').html("Thank you, Cecil. This will be most useful. Here’s " + getGold(400)+" gold for your assistance.");
+                }
+                if (eventNo == 28) {
+                    eventNo = 31;
+                }
+
+                //end of merlin, start of thorn
+                if (eventNo == 32) {
+                    $('#merlin').fadeOut();
+                    $('#thorn').fadeIn(1000);
+                }
+                if (eventNo > 32 && eventNo < 42) {
+                    $('#thorn').show();
+                }
+                if (eventNo == 35) {
+                    progressable = false;
+                    $('#acceptQuest').show();
+                    currCustomer = 4;
+                }
+                if(eventNo == 36){
+                    $('#content').html("Much appreciated, Cecil. Here’s " + getGold(200)+" gold for your troubles.");
+                }
+                if (eventNo == 38) {
+                    eventNo = 41;
+                }
+
+                //end of thorn
+                if (eventNo == 42) {
+                    $('#thorn').fadeOut();
+                }
+
+            }
+
+            $(document).on('click', '#yes', function () {
+                if (currCustomer == 1) {
+                    questAccepted("Potion of Rejuvenation", 300)
+                }
+                if (currCustomer == 2) {
+                    questAccepted("Potion of Health", 600)
+                }
+                if (currCustomer == 3) {
+                    questAccepted("Eldertree Whisperleaf", 400)
+                }
+                if (currCustomer == 4) {
+                    questAccepted("Potion of Wealth", 200)
+                }
+            })
+
+            $(document).on('click', '#no', function () {
+                let rep = Number(localStorage.getItem("Reputation"));
+                rep -= 0.1;
+                if (rep < 0.2) {
+                    rep = 0.2;
+                }
+                rep = rep.toFixed(1);
+                localStorage.setItem("Reputation", rep);
+
+                $('#acceptQuest').hide();
+
+                if (currCustomer == 1) {
+                    eventNo = 8;
+                }
+                if (currCustomer == 2) {
+                    eventNo = 18;
+                }
+                if (currCustomer == 3) {
+                    eventNo = 29;
+                }
+                if (currCustomer == 4) {
+                    eventNo = 39;
+                }
+                events();
+                progressable = true;
+            })
+
+            function questAccepted(item, reward) {
+                let have = localStorage.getItem(item);
+                if (have > 0) {
+                    have--
+                    localStorage.setItem(item, have)
+                    let gold = Number(localStorage.getItem("Gold"));
+                    let rep = Number(localStorage.getItem("Reputation"));
+                    reward *= rep;
+                    gold += reward
+                    rep += 0.1;
+                    gold = Math.round(gold);
+                    rep = rep.toFixed(1);
+                    localStorage.setItem("Gold", gold);
+                    localStorage.setItem("Reputation", rep);
+                    progressable = true;
+                    events();
+                    $('#acceptQuest').hide();
+                } else {
+                    changeSpeaker("Cecil")
+                    $('#content').html("<b><i>I don't have that item</i></b>");
+                }
+            }
+
+            $(document).on('click', '#book', function () {
+                $('#bookHolder').show();
+                $('#leftArrow').hide();
+                $('.bookPage').hide();
+                $('#page1').show();
+                pageNum = 1;
+            })
+            $(document).on('click', '#closeBook', function () {
+                $('#bookHolder').hide();
+                $('.bookPage').hide();
+                pageNum = 1;
+            })
+            $(document).on('click', '#rightArrow', function () {
+                pageNum++;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 2) {
+                    $('#leftArrow').show();
+                }
+                if (pageNum === 6) {
+                    $('#rightArrow').hide();
+                }
+            })
+            $(document).on('click', '#leftArrow', function () {
+                pageNum--;
+                $('.bookPage').hide();
+                let page = "#page" + pageNum;
+                $(page).show();
+                if (pageNum === 5) {
+                    $('#rightArrow').show();
+                }
+                if (pageNum === 1) {
+                    $('#leftArrow').hide();
+                }
+            })
+            $(document).on('click', '.tool', function () {
+                let pageName = $(this).data('pagename');
+                localStorage.setItem("stage", eventNo);
+                window.location = pageName;
+            })
+
+            function changeSpeaker(name) {
+                $('#speaker').html(name + ":");
+                $("#speaker").css('font-size', '30px')
+                if (name === "Tutorial") {
+                    $('#speaker').css('color', '#f0f0f0')
+                }
+                if (name === "Cecil") {
+                    $('#speaker').css('color', '#4287f5')
+                }
+                if (name === "Poetica") {
+                    $('#speaker').css('color', '#fa41a4')
+                }
+                if (name === "Sir Froststeel") {
+                    $('#speaker').css({
+                        'color': '#bfbfbf',
+                        'font-size': '22px',
+                    })
+                }
+                if (name === "Thorn") {
+                    $('#speaker').css('color', '#fa3e2d')
+                }
+                if (name === "King Ironheart") {
+                    $('#speaker').css({
+                        'color': '#ffdb0f',
+                        'font-size': '20px',
+                    })
+                }
+                if (name === "Merlin") {
+                    $('#speaker').css('color', '#bf0fff')
+                }
+                if (name === "Riven") {
+                    $('#speaker').css('color', '#54ff68')
+                }
+                if (name === "Thistle") {
+                    $('#speaker').css('color', '#8a4000')
+                }
+            }
+
+            function getGold(amount) {
+                let rep = Number(localStorage.getItem("Reputation"));
+                rep -= 0.1;
+                rep=rep.toFixed(1)
+                console.log(rep);
+                amount *= rep;
+                amount = Math.round(amount)
+                return amount;
+            }
+
+
+        })
+    </script>
+</head>
+
+<body>
+    <div id="stage">
+        <img src="Images/Sprites/People/Cecil.png" id="cecil" alt="A picture of Cecil">
+        <img src="Images/Sprites/People/Thistle.png" id="thistle" class="customer" alt="A picture of Thistle">
+        <img src="Images/Sprites/People/Riven.png" id="riven" class="customer" alt="A picture of Riven">
+        <img src="Images/Sprites/People/Merlin.png" id="merlin" class="customer" alt="A picture of Merlin">
+        <img src="Images/Sprites/People/Thorn.png" id="thorn" class="customer" alt="A picture of Thorn">
+
+
+        <img src="Images/Sprites/Items/mortar.png" id="mortar" class="tool" data-pagename="mortar.html"
+            alt="a picture of a mortar and pestle">
+        <img src="Images/Sprites/Items/dryingRack.png" id="rack" class="tool" data-pagename="rack.html"
+            alt="a picture of a drying rack">
+        <img src="Images/Sprites/Items/choppingBoard.png" id="board" class="tool" data-pagename="board.html"
+            alt="a picture of a chopping board">
+        <img src="Images/Sprites/Items/mixingBowl.png" id="bowl" class="tool" data-pagename="bowl.html"
+            alt="a picture of a mixingBowl">
+
+        <div id="output">
+            <p id="speaker">Cecil:</p>
+            <p id="content">Test</p>
+        </div>
+        <div id="acceptQuest">
+            <button id="yes" class="questBtn">ACCEPT</button>
+            <button id="no" class="questBtn">DENY</button>
+        </div>
+
+        <img src="Images/Sprites/Book/Book.png" id="book">
+
+        <div id="bookHolder">
+            <img src="Images/Sprites/Book/page1.png" id="page1" class="bookPage" alt="Recipe book page 1">
+            <img src="Images/Sprites/Book/page2.png" id="page2" class="bookPage" alt="Recipe book page 2">
+            <img src="Images/Sprites/Book/page3.png" id="page3" class="bookPage" alt="Recipe book page 3">
+            <img src="Images/Sprites/Book/page4.png" id="page4" class="bookPage" alt="Recipe book page 4">
+            <img src="Images/Sprites/Book/page5.png" id="page5" class="bookPage" alt="Recipe book page 5">
+            <img src="Images/Sprites/Book/page6.png" id="page6" class="bookPage" alt="Recipe book page 6">
+
+            <img src="Images/Sprites/Icons/X.png" id="closeBook" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="leftArrow" class="bookIcon">
+            <img src="Images/Sprites/Icons/arrow.png" id="rightArrow" class="bookIcon">
+        </div>
+
+        <div id="introSplash">
+            <h1 id="introSplashTxt">DAY 4</h1>
+        </div>
+    </div>
+</body>
+</html>

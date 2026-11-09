@@ -1,0 +1,339 @@
+#stage {
+    width: 1280px;
+    height: 720px;
+    margin: auto;
+    position: relative;
+    background-image: url(../Images/Backgrounds/mixingBowlBackground.jpg);
+    /*overflow: hidden;*/
+}
+
+#inventory {
+    background: black;
+    color:white;
+    width:25%;
+    height: 100%;
+    margin:auto;
+    position:absolute;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: trajan-pro-3, serif;
+    font-style: normal;
+    font-weight: 200;
+    text-align: center;
+}
+
+#title {
+    padding: 0px;
+    margin: 0px;
+}
+
+#items {
+    list-style: none;
+    font-size: 20px;
+    padding-left: 0px;
+    margin: auto;
+}
+
+.ingredient {
+    margin: auto;
+    margin-top: 2px;
+    padding: 0px;
+    cursor:pointer;
+    border-style:double;
+    border-color:white;
+}
+
+#bowl {
+    position:absolute;
+    margin:auto;
+    left: 1100px;
+    bottom: 25px;
+    cursor: pointer;
+}
+
+.icon {
+    margin: auto;
+    position:absolute;
+}
+
+.crushedPlant {
+    scale: 0.666 0.666;
+}
+
+.choppedPlant {
+    scale: 0.666 0.666;
+}
+
+.driedPlant {
+    scale: 0.666 0.666;
+}
+
+
+.potion {
+    margin: auto;
+    margin-top: 2px;
+    padding: 0px;
+    border-style:double;
+    border-color:rgb(135, 135, 135);
+    color:rgb(135, 135, 135);
+}
+
+#MoonshadowLotus {
+    left: 600px;
+    bottom: 200px;
+}
+
+#StarbloomEssence {
+    left: 600px;
+    bottom: 400px;
+}
+
+#EldertreeWhisperleaf {
+    left: 550px;
+    bottom: 300px;
+}
+
+#ShadowfireNightshade {
+    left: 675px;
+    bottom: 300px;
+}
+
+#FaerieMistOrchid {
+    left: 750px;
+    bottom: 400px;
+}
+
+#RuneleafElixirfern {
+    left: 750px;
+    bottom: 200px;
+}
+
+#PhoenixEmberthorn {
+    left: 800px;
+    bottom: 300px;
+}
+
+
+#ChoppedLotus {
+    left: 600px;
+    bottom: 200px;
+}
+
+#ChoppedEssence {
+    left: 600px;
+    bottom: 400px;
+}
+
+#ChoppedWhisperleaf {
+    left: 550px;
+    bottom: 300px;
+}
+
+#ChoppedNightshade {
+    left: 675px;
+    bottom: 300px;
+}
+
+#ChoppedOrchid {
+    left: 750px;
+    bottom: 400px;
+}
+
+#ChoppedElixirfern {
+    left: 750px;
+    bottom: 200px;
+}
+
+#ChoppedEmberthorn {
+    left: 800px;
+    bottom: 300px;
+}
+
+#CrushedLotus {
+    left: 500px;
+    bottom: 200px;
+}
+
+#CrushedEssence {
+    left: 500px;
+    bottom: 400px;
+}
+
+#CrushedWhisperleaf {
+    left: 450px;
+    bottom: 300px;
+}
+
+#CrushedNightshade {
+    left: 575px;
+    bottom: 300px;
+}
+
+#CrushedOrchid {
+    left: 650px;
+    bottom: 400px;
+}
+
+#CrushedElixirfern {
+    left: 650px;
+    bottom: 200px;
+}
+
+#CrushedEmberthorn {
+    left: 700px;
+    bottom: 300px;
+}
+
+
+#DriedLotus {
+    left: 550px;
+    bottom: 100px;
+}
+
+#DriedEssence {
+    left: 550px;
+    bottom: 300px;
+}
+
+#DriedWhisperleaf {
+    left: 500px;
+    bottom: 200px;
+}
+
+#DriedNightshade {
+    left: 625px;
+    bottom: 200px;
+}
+
+#DriedOrchid {
+    left: 700px;
+    bottom: 300px;
+}
+
+#DriedElixirfern {
+    left: 700px;
+    bottom: 100px;
+}
+
+#DriedEmberthorn {
+    left: 750px;
+    bottom: 200px;
+}
+
+
+
+#rewardGivenOuter{
+    margin: auto;
+    position:absolute;
+    height: 100%;
+    width:100%;
+    backdrop-filter: blur(10px);
+}
+
+#rewardGivenInner{
+    margin: auto;
+    position:absolute;
+    font-family: trajan-pro-3, serif;
+    left: 440px;
+    bottom: 110px;
+    height: 500px;
+    width:400px;
+    background-color: black;
+    color: white;
+    text-align:center;
+    border-radius: 25px;
+}
+
+#acceptReward{
+    width:80%;
+    height: 10%;
+    cursor:pointer;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    font-family: trajan-pro-3, serif;
+    font-size: 20px;
+    border-style: double;
+    border-color:white;
+}
+
+#acceptReward:hover{
+    border-color:gold;
+}
+
+#book {
+    position:absolute;
+    margin:auto;
+    left: 1060px;
+    bottom: 550px;
+    cursor: pointer;
+    scale:0.666 0.666;
+}
+
+#book:hover {
+    scale:0.766 0.766;
+}
+
+#bookHolder {
+    margin: auto;
+    position:absolute;
+    height: 100%;
+    width:100%;
+    backdrop-filter: blur(10px);
+}
+
+.bookPage {
+    margin: auto;
+    position:absolute;
+    height: 100%;
+    width:100%;
+}
+
+.bookIcon {
+    margin: auto;
+    position:absolute;
+    cursor:pointer;
+}
+
+#closeBook{
+    left: -100px;
+    bottom: 350px;
+    scale: 0.15 0.15;
+}
+
+#closeBook:hover{
+    scale: 0.2 0.2;
+}
+
+#leftArrow{
+    scale: -0.15 0.15;
+    bottom: -200px;
+    left: -230px;
+}
+
+#leftArrow:hover{
+    scale: -0.2 0.2;
+}
+
+#rightArrow{
+    scale: 0.15 0.15;
+    bottom: -200px;
+    left: 700px;
+}
+
+#rightArrow:hover{
+    scale: 0.2 0.2;
+}
+
+#returnToStore{
+    margin: auto;
+    position:absolute;
+    cursor:pointer;
+    left: 100px;
+    bottom: 350px;
+    scale: 0.15 0.15;
+}
+
+#returnToStore:hover{
+    scale: 0.2 0.2;
+}

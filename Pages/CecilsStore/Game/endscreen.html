@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Endscreen</title>
+    <link href="css/endscreen.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            gold = Number(localStorage.getItem("Gold"));
+            lowerBound = 1000;
+            higherBound = 6000;
+            if (gold < lowerBound) {
+                $('#stage').css('background-image', ' url(../Images/Backgrounds/EndscreenSpashes/BadEnd.png)')
+            } else if (gold > higherBound) {
+                $('#stage').css('background-image', ' url(../Images/Backgrounds/EndscreenSpashes/GoodEnd.png)')
+            } else {
+                $('#stage').css('background-image', ' url(../Images/Backgrounds/EndscreenSpashes/NeutralEnd.png)')
+            }
+
+            $('#retryBtn').click(function () {
+                localStorage.clear();
+                window.location = 'index.html';
+            })
+
+        })
+    </script>
+</head>
+
+<body>
+    <div id="stage">
+        <button id="retryBtn">RETRY?</button>
+    </div>
+</body>
+
+</html>

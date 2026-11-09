@@ -1,0 +1,222 @@
+#stage {
+    width: 1280px;
+    height: 720px;
+    margin: auto;
+    position: relative;
+    background-image: url(../Images/Backgrounds/storeBackground.jpg);
+    overflow: hidden;
+    user-select:none;
+}
+
+#cecil {
+    margin: auto;
+    position: absolute;
+    bottom: -100px;
+    left: 50px;
+    scale: -1 1;
+    cursor: pointer;
+}
+
+#sagebark {
+    margin: auto;
+    position: absolute;
+    bottom: -100px;
+    left: calc(100% - 420px);
+    cursor: pointer;
+}
+
+.customer {
+    margin: auto;
+    position: absolute;
+    bottom: -100px;
+    left: 960px;
+    scale: 0.75 0.75;
+    cursor: pointer;
+}
+
+#output {
+    background: black;
+    color: white;
+    width: 100%;
+    height:100px;
+    margin: auto;
+    position: absolute;
+    bottom: 0px;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: trajan-pro-3, serif;
+    font-style: normal;
+    font-weight: 200;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 10% 90%;
+    gap: 10px;
+}
+
+#speaker {
+    margin: auto;
+    margin-right: 0px;
+    text-align: right;
+    font-size: 30px;
+    color: #4287f5
+}
+
+#content {
+    margin: auto;
+    margin-left: 0px;
+    text-align: left;
+    font-size: 20px;
+}
+
+#acceptQuest {
+    background: black;
+    color: white;
+    width: 300px;
+    height: 50px;
+    margin: auto;
+    position: absolute;
+    bottom: 80px;
+    left: 490px;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 25px;
+}
+
+.questBtn {
+    width: 49%;
+    padding:auto;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    font-family: trajan-pro-3, serif;
+    font-size: 20px;
+    border-style: double;
+    border-color: white;
+}
+
+.questBtn:hover {
+    border-color: gold;
+}
+
+
+.tool {
+    margin: auto;
+    position: absolute;
+    bottom: 200px;
+    cursor: pointer;
+}
+
+.tool:hover {
+    scale: 1.1 1.1;
+}
+
+.noHover:hover {
+    scale: 1 1 !important;
+    cursor: default !important;
+}
+
+#mortar {
+    left: 400px;
+}
+
+#rack {
+    left: 550px;
+}
+
+#board {
+    left: 650px;
+}
+
+#bowl {
+    left: 850px;
+}
+
+#book {
+    position: absolute;
+    margin: auto;
+    left: 1060px;
+    bottom: 550px;
+    cursor: pointer;
+    scale: 0.666 0.666;
+}
+
+#book:hover {
+    scale: 0.766 0.766;
+}
+
+#bookHolder {
+    margin: auto;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+.bookPage {
+    margin: auto;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.bookIcon {
+    margin: auto;
+    position: absolute;
+    cursor: pointer;
+}
+
+#closeBook {
+    left: -100px;
+    bottom: 350px;
+    scale: 0.15 0.15;
+}
+
+#closeBook:hover {
+    scale: 0.2 0.2;
+}
+
+#leftArrow {
+    scale: -0.15 0.15;
+    bottom: -200px;
+    left: -230px;
+}
+
+#leftArrow:hover {
+    scale: -0.2 0.2;
+}
+
+#rightArrow {
+    scale: 0.15 0.15;
+    bottom: -200px;
+    left: 700px;
+}
+
+#rightArrow:hover {
+    scale: 0.2 0.2;
+}
+
+#introSplash {
+    margin: auto;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: hsla(0, 0%, 0%, 0.75);
+    backdrop-filter: blur(10px);
+    color: white;
+    font-family: trajan-pro-3, serif;
+    font-style: normal;
+    font-size: 100px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+}
+
+#introSplashTxt {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
