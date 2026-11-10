@@ -12,16 +12,16 @@
             lowerBound = 1000;
             higherBound = 6000;
             if (gold < lowerBound) {
-                $('#stage').css('background-image', ' url(../Images/Backgrounds/EndscreenSpashes/BadEnd.png)')
+                $('#stage').css('background-image', ' url(Images/Backgrounds/EndscreenSpashes/BadEnd.png)')
             } else if (gold > higherBound) {
-                $('#stage').css('background-image', ' url(../Images/Backgrounds/EndscreenSpashes/GoodEnd.png)')
+                $('#stage').css('background-image', ' url(Images/Backgrounds/EndscreenSpashes/GoodEnd.png)')
             } else {
-                $('#stage').css('background-image', ' url(../Images/Backgrounds/EndscreenSpashes/NeutralEnd.png)')
+                $('#stage').css('background-image', ' url(Images/Backgrounds/EndscreenSpashes/NeutralEnd.png)')
             }
 
             $('#retryBtn').click(function () {
                 localStorage.clear();
-                window.location = 'index.html';
+                window.location = 'start.html';
             })
 
         })

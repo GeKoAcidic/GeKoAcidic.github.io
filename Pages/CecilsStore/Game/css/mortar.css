@@ -1,3 +1,7 @@
+body{
+    background-color: #1a1a1a;
+}
+
 #stage {
     width: 1280px;
     height: 720px;
